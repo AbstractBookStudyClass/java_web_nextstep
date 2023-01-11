@@ -58,7 +58,8 @@ public class StringParserTest {
 			Arguments.of("//#\n1#2", "1#2"),
 			Arguments.of("///\n1/2", "1/2"),
 			Arguments.of("///\n1123/2", "1123/2"),
-			Arguments.of("1,2:3", "1,2:3")
+			Arguments.of("1,2:3", "1,2:3"),
+			Arguments.of("1", "1")
 		);
 	}
 }
