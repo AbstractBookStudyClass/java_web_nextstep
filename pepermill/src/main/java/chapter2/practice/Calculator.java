@@ -10,11 +10,6 @@ public class Calculator {
 	public int add(String delimiter, String input) {
 		String[] numbers = input.split("\\"+delimiter);
 		for (String number : numbers) {
-			if (stack.size() == 2) {
-				int b = pop();
-				int a = pop();
-				push(a+b);
-			}
 			push(Integer.parseInt(number));
 		}
 		return pop() + pop();
@@ -28,6 +23,11 @@ public class Calculator {
 	}
 
 	private void push(int number) {
+		if (stack.size() == 2) {
+			int b = pop();
+			int a = pop();
+			stack.add(a+b);
+		}
 		stack.add(number);
 	}
 }
