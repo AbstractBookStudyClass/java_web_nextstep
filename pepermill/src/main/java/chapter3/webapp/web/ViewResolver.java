@@ -24,9 +24,12 @@ public class ViewResolver {
 			body = getDocument(view);
 			view.setLengthOfBodyContent(body.length);
 			header = View.from(view, view.getHttpStatusCode());
+			log.debug("----Header----");
 			log.debug(new String(header));
 			outputStream.write(header);
-			outputStream.write(body);
+			if (!view.getHttpStatusCode().equals("302")){
+				outputStream.write(body);
+			}
 		} catch (IOException e) {
 			log.error(e.getMessage());
 			throw new RuntimeException("문서가 존재하지 않습니다");
