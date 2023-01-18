@@ -8,7 +8,7 @@ public class View {
 	private static final String CONTENT_TYPE = "Content-Type:";
 	private static final String CONTENT_LENGTH = "Content-Length:";
 	private static final String LOCATION = "Location:";
-	private static final String HOST = "127.0.0.1:8080";
+	private static final String HOST = "http://127.0.0.1:8080";
 
 	private String httpVersion;
 	private String httpStatusCode;
