@@ -26,7 +26,7 @@ public class UserService {
 		User user = new User(name, password);
 		User byName = memoryRepository.findByName(name);
 		if (!user.equals(byName)) {
-			throw new RuntimeException("존재하지 않는 계정입니다.");
+			return null;
 		}
 		sessionRepository.setSession(user);
 		return user;

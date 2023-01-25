@@ -19,6 +19,9 @@ public class RequestHandler extends Thread {
 
 	private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
 
+	static MemoryRepository memoryRepository = new MemoryRepository();
+	static SessionRepository sessionRepository = new SessionRepository();
+
 	private Socket connection;
 	private Map<String, String> requestMap;
 
@@ -32,10 +35,10 @@ public class RequestHandler extends Thread {
 
 		// 요청은 새로운 스레드를 생성한다.
 		// 요청 수 만큼 클래스가 생성된다. -> 개선 필요.
+		// 하드 코딩함. 객체를 찾아서 주입해주거나 자동 생성해주는 것이 필요함.
 		RequestMapper requestMapper = new RequestMapper();
 		ViewResolver viewResolver = new ViewResolver();
-		// 하드 코딩함. 객체를 찾아서 주입해주거나 자동 생성해주는 것이 필요함.
-		UserController userController = new UserController(new UserService(new MemoryRepository(), new SessionRepository()));
+		UserController userController = new UserController(new UserService(memoryRepository, sessionRepository));
 		MethodHandler methodHandler = new MethodHandler(UserController.class, userController);
 
 		try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {

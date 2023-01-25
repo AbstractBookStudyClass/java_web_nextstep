@@ -51,25 +51,24 @@ public class MethodHandler {
 			Annotation[] declaredAnnotations = method.getDeclaredAnnotations();
 			for (Annotation annotation : declaredAnnotations) {
 				try {
-					if (annotation instanceof GetMapping // 파라미터가 있을 때, 호출
+					if (annotation instanceof GetMapping // get 파라미터가 있을 때, 호출
 						&& url.equals(((GetMapping)annotation).value())
 						&& httpMethod.equals(((GetMapping)annotation).method())
 						&& requestMap.containsKey("Parameters")
 					) {
 						return result = (View) method.invoke(instance, requestForm);
-					} else if (annotation instanceof PostMapping // 파라미터가 있을 때, 호출
+					} else if (annotation instanceof PostMapping // post 파라미터가 있을 때, 호출
 						&& url.equals(((PostMapping)annotation).value())
 						&& httpMethod.equals(((PostMapping)annotation).method())
 						&& requestMap.containsKey("Parameters")
 					) {
-						return result = (View)method.invoke(instance, requestForm);
-					} else if (annotation instanceof GetMapping // 기본 리다이렉트
+						return result = (View) method.invoke(instance, requestForm);
+					} else if (annotation instanceof GetMapping // get 파라미터 없을 때
 						&& url.equals(((GetMapping)annotation).value())
 						&& httpMethod.equals(((GetMapping)annotation).method())
 					) {
-						log.debug("redirect");
+						log.debug("GET - no parameters");
 						return result = (View) method.invoke(instance);
-
 					}
 				} catch (InvocationTargetException e) {
 					log.error("호출 대상 메소드가 없습니다.");
