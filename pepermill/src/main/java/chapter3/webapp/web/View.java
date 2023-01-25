@@ -24,7 +24,7 @@ public class View {
 		this.httpVersion = HTTP_1_1;
 		this.httpStatusCode = HttpStatusCode.OK.getHttpStatusCode();
 		this.httpStatusDescription = HttpStatusCode.OK.getHttpStatusDescription();
-		this.location = null;
+		this.location = "/index.html";
 		this.url = null;
 		this.cookie = null;
 		this.contentType = TEXT_HTML;
