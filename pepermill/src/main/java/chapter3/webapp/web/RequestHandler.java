@@ -42,22 +42,17 @@ public class RequestHandler extends Thread {
 			// Mapper에게 inputstream을 넘겨 map으로 변환된 결과를 받는다.
 			requestMap = requestMapper.createRequestHeaderMap(in);
 
-			// get, post http 메소드에 따라 다른 요청 처리할 로직이 필요?
-			View view = methodHandler.createResponseView(requestMap);
-			byte[] document = viewResolver.getView(view);
-
-			// map에서 헤더를 읽어서 요청에 맞게 처리한다. -> 삭제됨.
 			// 보다 보편적인 기능을 위해서는 View라는 클래스를 통해서 전달한다.
 			// 예를 들어, 상태코드 변경, 헤더 변경 등 다양한 기능을 위해서 추가할 필요가 있다.
 			// View 클래스에서 url를 가져와 해당 html 문서를 전달한다.
-			// byte[] document = viewResolver.getView(view);
+
+			// get, post http 메소드에 따라 다른 요청 처리
+			View view = methodHandler.createResponseView(requestMap);
+			byte[] document = viewResolver.getView(view);
 
 			// 처리된 결과를 전달한다.
 			DataOutputStream dos = new DataOutputStream(out);
 			sendView(dos, document);
-
-			// response200Header(dos, body.length);
-			// responseBody(dos, body);
 		} catch (IOException e) {
 			log.error(e.getMessage());
 		}
@@ -71,24 +66,4 @@ public class RequestHandler extends Thread {
 			e.printStackTrace();
 		}
 	}
-
-	// private void response200Header(DataOutputStream dos, int lengthOfBodyContent) {
-	// 	try {
-	// 		dos.writeBytes("HTTP/1.1 200 OK \r\n");
-	// 		dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
-	// 		dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
-	// 		dos.writeBytes("\r\n");
-	// 	} catch (IOException e) {
-	// 		log.error(e.getMessage());
-	// 	}
-	// }
-	//
-	// private void responseBody(DataOutputStream dos, byte[] body) {
-	// 	try {
-	// 		dos.write(body, 0, body.length);
-	// 		dos.flush();
-	// 	} catch (IOException e) {
-	// 		log.error(e.getMessage());
-	// 	}
-	// }
 }

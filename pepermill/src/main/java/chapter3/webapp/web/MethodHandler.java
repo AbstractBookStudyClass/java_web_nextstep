@@ -3,7 +3,9 @@ package chapter3.webapp.web;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +30,18 @@ public class MethodHandler {
 		String url = requestMap.get("Url");
 		View result = null;
 
-		// for debug
-		RequestForm requestForm = new RequestForm("Test", "test");
+		// 만약 파라미터가 있다면, 해당 파라미터 form을 만든다.
+		// 편의를 위해서 정해진 form만 생성
+		RequestForm requestForm = new RequestForm();
+		if (requestMap.containsKey("Parameters")) {
+			String parameters = requestMap.get("Parameters");
+			String[] split = parameters.split("&");
+			Map<String, String> map = Arrays.stream(split)
+				.map(e -> e.split("=", 2))
+				.collect(Collectors.toMap(s -> s[0], s -> s[1]));
+			requestForm.setName(map.get("name"));
+			requestForm.setPassword(map.get("password"));
+		}
 
 		// 요청 정보를 가지고 경로를 설정한다.
 		// controller가 늘어나면서 계속 추가해야 함. 어떻게 개선?
@@ -39,23 +51,26 @@ public class MethodHandler {
 			Annotation[] declaredAnnotations = method.getDeclaredAnnotations();
 			for (Annotation annotation : declaredAnnotations) {
 				try {
-					if (annotation instanceof GetMapping
+					if (annotation instanceof GetMapping // 파라미터가 있을 때, 호출
+						&& url.equals(((GetMapping)annotation).value())
+						&& httpMethod.equals(((GetMapping)annotation).method())
+						&& requestMap.containsKey("Parameters")
+					) {
+						return result = (View) method.invoke(instance, requestForm);
+					} else if (annotation instanceof PostMapping // 파라미터가 있을 때, 호출
+						&& url.equals(((PostMapping)annotation).value())
+						&& httpMethod.equals(((PostMapping)annotation).method())
+						&& requestMap.containsKey("Parameters")
+					) {
+						return result = (View)method.invoke(instance, requestForm);
+					} else if (annotation instanceof GetMapping // 기본 리다이렉트
 						&& url.equals(((GetMapping)annotation).value())
 						&& httpMethod.equals(((GetMapping)annotation).method())
 					) {
-						return result = (View) method.invoke(instance, requestForm);
-					} else if (annotation instanceof PostMapping
-						&& url.equals(((PostMapping)annotation).value())
-						&& httpMethod.equals(((PostMapping)annotation).method())
-					) {
-						return result = (View)method.invoke(instance, requestForm);
+						log.debug("redirect");
+						return result = (View) method.invoke(instance);
+
 					}
-					// } else if (annotation instanceof GetMapping
-					// 	&& url.equals(((GetMapping)annotation).value())
-					// 	&& httpMethod.equals(((GetMapping)annotation).method())
-					// ) {
-					//
-					// }
 				} catch (InvocationTargetException e) {
 					log.error("호출 대상 메소드가 없습니다.");
 					e.printStackTrace();

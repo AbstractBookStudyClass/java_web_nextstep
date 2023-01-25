@@ -6,7 +6,7 @@
 
 - 웹 로직과 비지니스 로직을 분리하기 위해서 reflection을 사용한다.
 - 파리미터로 전달되어도 비지니스 로직은 동일하게 동작해야 한다.
-- /user/form.html?username=hello&password=world
+- /user/form.html?name=hello&password=world
 
 ### 3. POST http://localhost:8080/user/form.html 회원가입이 가능하다.
 

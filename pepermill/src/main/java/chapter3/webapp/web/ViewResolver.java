@@ -15,7 +15,7 @@ public class ViewResolver {
 	private static final String RESOURCES_PATH = "src/main/resources/template";
 
 	public byte[] getView(View view) {
-		byte[] header = null;
+		byte[] header = view.getHeader();
 		byte[] body = null;
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -35,6 +35,7 @@ public class ViewResolver {
 			throw new RuntimeException("문서가 존재하지 않습니다");
 		}
 
+		log.debug("====Path====");
 		log.debug(new String(outputStream.toByteArray()));
 		return outputStream.toByteArray();
 	}
