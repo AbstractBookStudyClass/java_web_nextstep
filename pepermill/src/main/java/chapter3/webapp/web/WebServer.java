@@ -1,4 +1,4 @@
-package chapter3.webapp;
+package chapter3.webapp.web;
 
 import java.io.IOException;
 import java.net.ServerSocket;
