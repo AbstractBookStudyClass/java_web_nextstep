@@ -16,7 +16,10 @@
 - 매주 토요일 저녁 8시까지 PR 올리기
 
 ## 스터디 참가자
-- namuhuchutong
+- [namuhuchutong](https://github.com/namuhuchutong)
+- [JohnPrk](https://github.com/JohnPrk)
+- [eeawSS](https://github.com/eeawSS)
+- [tc-ha](https://github.com/tc-ha)
 
 ## 참고할 레포지토리
 * https://github.com/slipp/jwp-book
