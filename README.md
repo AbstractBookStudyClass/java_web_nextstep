@@ -8,7 +8,7 @@
 반드시 모든 내용을 완벽하게 구현할 필요가 없습니다. 점진적으로 리팩토링하여 기술에 대한 이해와 어떻게 해야 좋은 코드를 작성할지 고민하고 공유합니다.
 
 
-[노션 링크] (https://fan-mangosteen-090.notion.site/nextstep-8a160b35cd4445eca6ed82ce42b4f9ba)
+[노션 링크](https://fan-mangosteen-090.notion.site/nextstep-8a160b35cd4445eca6ed82ce42b4f9ba)
 
 
 ## 스터디 스케쥴
