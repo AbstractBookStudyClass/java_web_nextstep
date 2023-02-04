@@ -44,6 +44,7 @@ public class UserController {
 	public View loginFailPage() {
 		View view = new View();
 		view.setHttpStatusCode(HttpStatusCode.OK.getHttpStatusCode());
+		view.setHttpStatusDescription(HttpStatusCode.OK.getHttpStatusDescription());
 		view.setLocation("/user/login-fail.html");
 		logger.debug("return user login page");
 		return view;
@@ -61,8 +62,8 @@ public class UserController {
 			logger.debug("user {}, password {} login", user.getUserName(), user.getPassword());
 		} else {
 			// 일단 200으로 반환
-			view.setHttpStatusDescription(HttpStatusCode.FOUND.getHttpStatusDescription());
-			view.setHttpStatusCode(HttpStatusCode.FOUND.getHttpStatusCode());
+			view.setHttpStatusDescription(HttpStatusCode.FORBIDDEN.getHttpStatusDescription());
+			view.setHttpStatusCode(HttpStatusCode.FORBIDDEN.getHttpStatusCode());
 			view.setCookie("login=false");
 			view.setLocation("/user/login-fail.html");
 			logger.debug("!!! login fail !!!");

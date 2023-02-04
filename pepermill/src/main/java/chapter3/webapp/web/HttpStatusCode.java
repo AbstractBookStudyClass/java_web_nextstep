@@ -2,7 +2,8 @@ package chapter3.webapp.web;
 
 public enum HttpStatusCode {
 	OK("OK", "200"),
-	FOUND("Found", "302");
+	FOUND("Found", "302"),
+	FORBIDDEN("Forbidden", "403");
 
 	private final String httpStatusDescription;
 	private final String httpStatusCode;
