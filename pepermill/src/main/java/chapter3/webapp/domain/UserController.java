@@ -61,7 +61,6 @@ public class UserController {
 			view.setCookie("login=true");
 			logger.debug("user {}, password {} login", user.getUserName(), user.getPassword());
 		} else {
-			// 일단 200으로 반환
 			view.setHttpStatusDescription(HttpStatusCode.FORBIDDEN.getHttpStatusDescription());
 			view.setHttpStatusCode(HttpStatusCode.FORBIDDEN.getHttpStatusCode());
 			view.setCookie("login=false");
