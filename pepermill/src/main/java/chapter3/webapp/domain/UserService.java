@@ -1,42 +1,53 @@
 package chapter3.webapp.domain;
 
-import java.net.ServerSocket;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import chapter3.webapp.domain.model.User;
-import chapter3.webapp.domain.repository.MemoryRepository;
-import chapter3.webapp.domain.repository.SessionRepository;
+import chapter3.webapp.domain.repository.UserRepository;
+import chapter3.webapp.web.storoage.SessionStorage;
 
 public class UserService {
 
-	private final MemoryRepository memoryRepository;
-	private final SessionRepository sessionRepository;
+	private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
-	public UserService(final MemoryRepository memoryRepository,
-		final SessionRepository sessionRepository) {
-		this.memoryRepository = memoryRepository;
-		this.sessionRepository = sessionRepository;
+	private final UserRepository userRepository;
+	private final SessionStorage sessionStorage;
+
+	public UserService(final UserRepository userRepository, final SessionStorage sessionStorage) {
+		this.userRepository = userRepository;
+		this.sessionStorage = sessionStorage;
 	}
 
 	public void registerUser(String name, String password) {
 		User user = new User(name, password);
-		memoryRepository.save(user);
+		userRepository.save(user);
 	}
 
 	public User login(String name, String password) {
 		User user = new User(name, password);
-		User byName = memoryRepository.findByName(name);
-		if (!user.equals(byName)) {
+		try {
+			User storedUser = userRepository.findByUser(user);
+		} catch (NoSuchElementException e) {
+			log.error("!!!! NO USER!!!");
 			return null;
 		}
-		sessionRepository.setSession(user);
+		sessionStorage.setSession(user);
 		return user;
 	}
 
 	public void logout(String name, String password) {
 		User user = new User(name, password);
-		if(!sessionRepository.checkSession(user)) {
+		if(!sessionStorage.checkSession(user)) {
 			throw new RuntimeException("로그인이 안된 회원입니다.");
 		}
-		sessionRepository.removeSession(user);
+		sessionStorage.removeSession(user);
+	}
+
+	public List<User> getUserList() {
+		return userRepository.findAll();
 	}
 }

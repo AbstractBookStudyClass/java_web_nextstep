@@ -1,5 +1,7 @@
 package chapter3.webapp.domain;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +63,8 @@ public class UserController {
 			// 일단 200으로 반환
 			view.setHttpStatusDescription(HttpStatusCode.FOUND.getHttpStatusDescription());
 			view.setHttpStatusCode(HttpStatusCode.FOUND.getHttpStatusCode());
-			view.setUrl("/user/login-fail.html");
+			view.setCookie("login=false");
+			view.setLocation("/user/login-fail.html");
 			logger.debug("!!! login fail !!!");
 		}
 
@@ -97,6 +100,16 @@ public class UserController {
 		view.setHttpStatusDescription(HttpStatusCode.FOUND.getHttpStatusDescription());
 		view.setLocation("/index.html");
 		logger.debug("registerPost method called");
+		return view;
+	}
+
+	@GetMapping("/user/list")
+	public View getUserListPage() {
+		View view = new View();
+		List<User> userList = userService.getUserList();
+		view.setHttpStatusCode(HttpStatusCode.OK.getHttpStatusCode());
+		view.setHttpStatusDescription(HttpStatusCode.OK.getHttpStatusDescription());
+		view.setBody(userList.toString());
 		return view;
 	}
 }
