@@ -1,4 +1,4 @@
-package chapter5.webapp.web;
+package chapter5.webapp.web.http;
 
 public enum HttpStatusCode {
 	OK("OK", "200"),
