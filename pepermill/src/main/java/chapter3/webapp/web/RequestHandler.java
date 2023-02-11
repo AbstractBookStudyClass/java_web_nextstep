@@ -12,15 +12,17 @@ import org.slf4j.LoggerFactory;
 
 import chapter3.webapp.domain.UserController;
 import chapter3.webapp.domain.UserService;
-import chapter3.webapp.domain.repository.MemoryRepository;
-import chapter3.webapp.domain.repository.SessionRepository;
+import chapter3.webapp.domain.repository.UserRepository;
+import chapter3.webapp.web.storoage.SessionStorage;
 
 public class RequestHandler extends Thread {
 
 	private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
 
-	static MemoryRepository memoryRepository = new MemoryRepository();
-	static SessionRepository sessionRepository = new SessionRepository();
+	// 테스트하기 힘든 구조.
+	// 실제 저장소에 저장되는 로직과 사용하는 로직을 분리할 필요가 있다.
+	static UserRepository userRepository = new UserRepository();
+	static SessionStorage sessionStorage = new SessionStorage();
 
 	private Socket connection;
 	private Map<String, String> requestMap;
@@ -38,7 +40,7 @@ public class RequestHandler extends Thread {
 		// 하드 코딩함. 객체를 찾아서 주입해주거나 자동 생성해주는 것이 필요함.
 		RequestMapper requestMapper = new RequestMapper();
 		ViewResolver viewResolver = new ViewResolver();
-		UserController userController = new UserController(new UserService(memoryRepository, sessionRepository));
+		UserController userController = new UserController(new UserService(userRepository, sessionStorage));
 		MethodHandler methodHandler = new MethodHandler(UserController.class, userController);
 
 		try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {

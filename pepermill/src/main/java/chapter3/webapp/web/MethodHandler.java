@@ -30,6 +30,17 @@ public class MethodHandler {
 		String url = requestMap.get("Url");
 		View result = null;
 
+		// js, css는 도메인 로직이 아니기 때문에 도메인으로 넘겨서는 안된다.
+		if (url.contains(".css")) {
+			result = new View();
+			result.setHttpStatusCode(HttpStatusCode.OK.getHttpStatusCode());
+			result.setHttpStatusDescription(HttpStatusCode.OK.getHttpStatusDescription());
+			result.setLocation("/css/styles.css");
+			result.setContentType("text/css");
+
+			return result;
+		}
+
 		// 만약 파라미터가 있다면, 해당 파라미터 form을 만든다.
 		// 편의를 위해서 정해진 form만 생성
 		RequestForm requestForm = new RequestForm();

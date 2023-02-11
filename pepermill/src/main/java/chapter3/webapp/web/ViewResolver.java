@@ -24,9 +24,11 @@ public class ViewResolver {
 			body = getDocument(view);
 			view.setLengthOfBodyContent(body.length);
 			header = View.from(view, view.getHttpStatusCode());
+
 			log.debug("----Header----");
 			log.debug(new String(header));
 			outputStream.write(header);
+
 			if (!view.getHttpStatusCode().equals("302")){
 				outputStream.write(body);
 			}
@@ -47,7 +49,12 @@ public class ViewResolver {
 		} else {
 			url = view.getUrl();
 		}
-		Path path = Paths.get(RESOURCES_PATH + url);
-		return Files.readAllBytes(path);
+
+		if (view.getBody() != null) {
+			return view.getBody().getBytes();
+		} else {
+			Path path = Paths.get(RESOURCES_PATH + url);
+			return Files.readAllBytes(path);
+		}
 	}
 }

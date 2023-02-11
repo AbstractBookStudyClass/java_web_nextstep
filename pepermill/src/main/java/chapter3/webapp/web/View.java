@@ -4,7 +4,7 @@ public class View {
 
 	private static final String END_WITH = "\r\n";
 	private static final String HTTP_1_1 = "HTTP/1.1";
-	private static final String TEXT_HTML = "text/html;charset=utf-8";
+	private static final String TEXT_HTML = "text/html";
 	private static final String CONTENT_TYPE = "Content-Type:";
 	private static final String CONTENT_LENGTH = "Content-Length:";
 	private static final String LOCATION = "Location:";
@@ -22,6 +22,7 @@ public class View {
 	private String cookie;
 	private String connection;
 	private String keepAlive;
+	private String body;
 	private int lengthOfBodyContent;
 	private byte[] header;
 
@@ -34,11 +35,11 @@ public class View {
 		this.cookie = null;
 		this.connection = "Keep-alive";
 		this.keepAlive = "timeout=5, max=1000";
+		this.body = null;
 		this.contentType = TEXT_HTML;
 		this.lengthOfBodyContent = 0;
 	}
 
-	// 이건 무슨 역할?
 	public static byte[] from(View view, String httpStatusCode) {
 		if (httpStatusCode.equals(HttpStatusCode.OK.getHttpStatusCode())) {
 			return response200Header(view).getBytes();
@@ -85,7 +86,7 @@ public class View {
 		builder.append(CONTENT_LENGTH).append(" ")
 			.append(view.lengthOfBodyContent).append(END_WITH);
 		builder.append(COOKIE).append(" ")
-			.append(view.cookie).append(END_WITH);
+			.append(view.cookie).append("; Max-Age=1000").append("; Path=/").append(END_WITH);
 		builder.append(END_WITH);
 
 		return builder.toString();
@@ -161,5 +162,29 @@ public class View {
 
 	public void setCookie(final String cookie) {
 		this.cookie = cookie;
+	}
+
+	public String getConnection() {
+		return connection;
+	}
+
+	public void setConnection(final String connection) {
+		this.connection = connection;
+	}
+
+	public String getKeepAlive() {
+		return keepAlive;
+	}
+
+	public void setKeepAlive(final String keepAlive) {
+		this.keepAlive = keepAlive;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(final String body) {
+		this.body = body;
 	}
 }

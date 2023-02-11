@@ -23,19 +23,23 @@ public class RequestMapper {
 			throw new RuntimeException("헤더가 존재하지 않습니다.");
 		}
 		String[] header = line.split(" ");
-		log.debug(header[0]);
+		log.debug("-------Request Header Info-------");
+		log.debug("header[0] : {}", header[0]);
 		requestMap.put("Method", header[0]);
 
 		// url과 함께 딸려오는 파라미터를 분리할 필요가 있다.
 		String[] splitHeader = header[1].split("\\?");
+		log.debug("Url : {}", splitHeader[0]);
 		requestMap.put("Url", splitHeader[0]);
 
 		while(!"".equals(line = reader.readLine())) {
 			String[] parsedString = line.split(" ", 2);
 			String key = parsedString[0].replace(":", "");
 			String value = parsedString[1];
+			log.debug("{}: {}", key, value);
 			requestMap.put(key, value);
 		}
+		log.debug("-------End Header-------");
 
 		// get으로 오는 form은 어떻게 담을 것인가?
 		// post는 body로 오는데 어떻게 담을 것인가?
