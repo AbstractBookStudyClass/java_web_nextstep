@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ public class HttpResponse {
 	private static final String HTTP_1_1 = "HTTP/1.1";
 	private static final String EMPTY_BODY = "";
 	private static final String DEFAULT_HTML = "/index.html";
+	private static final String DELIMITER = "\r\n";
+	private static final String WHITE_SPACE = " ";
 
 	private HttpStatusCode httpStatusCode;
 	private HttpHeaders httpHeaders;
@@ -29,12 +32,28 @@ public class HttpResponse {
 		return new HttpResponse(HttpStatusCode.OK, HttpHeaders.emptyHeaders(), EMPTY_BODY, DEFAULT_HTML);
 	}
 
-	private HttpResponse(final HttpStatusCode httpStatusCode, final HttpHeaders httpHeaders, final String body,
+	private HttpResponse(final HttpStatusCode httpStatusCode,
+						 final HttpHeaders httpHeaders,
+		 				 final String body,
 						 final String htmlLocation) {
 		this.httpStatusCode = httpStatusCode;
 		this.httpHeaders = httpHeaders;
 		this.body = body;
 		this.htmlLocation = htmlLocation;
+	}
+
+	public String getResponse() {
+		String header = getHeaderString();
+		return String.join(DELIMITER,
+			HTTP_1_1 + WHITE_SPACE + httpStatusCode.getHttpStatusCode() + httpStatusCode.getHttpStatusDescription(),
+			header, "");
+	}
+
+	private String getHeaderString() {
+		return httpHeaders.getEntries()
+			.stream()
+			.map(e -> e.getKey() + ": " + e.getValue())
+			.collect(Collectors.joining(DELIMITER));
 	}
 
 	public void setCookie(final String value) {

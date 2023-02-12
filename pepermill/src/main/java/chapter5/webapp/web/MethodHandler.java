@@ -17,6 +17,7 @@ public class MethodHandler {
 	private static final Logger log = LoggerFactory.getLogger(MethodHandler.class);
 
 	private final Class<?> className;
+	// 인스턴스를 하드 코딩해야 함. 어떻게 개선해야 하는가?
 	private final Object instance;
 
 	public MethodHandler(final Class<?> className, final Object instance) {

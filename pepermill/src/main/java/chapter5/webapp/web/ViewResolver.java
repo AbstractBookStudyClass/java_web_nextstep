@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,10 +24,11 @@ public class ViewResolver {
 	}
 
 	private byte[] getDocument(final HttpResponse httpResponse) throws IOException {
-		byte[] header;
+		byte[] header = httpResponse.getResponse().getBytes();
 		byte[] body;
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		Path path = Paths.get(RESOURCES_PATH + httpResponse.getHtmlLocation());
+		outputStream.write(header);
 		outputStream.write(Files.readAllBytes(path));
 		return outputStream.toByteArray();
 	}

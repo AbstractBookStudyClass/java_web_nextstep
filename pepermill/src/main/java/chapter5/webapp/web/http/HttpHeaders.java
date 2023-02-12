@@ -3,6 +3,7 @@ package chapter5.webapp.web.http;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.sun.net.httpserver.HttpPrincipal;
 
@@ -59,5 +60,9 @@ public class HttpHeaders {
 
 	public Map<String, HttpHeader> getHeaders() {
 		return this.headers;
+	}
+
+	public Set<Map.Entry<String, HttpHeader>> getEntries() {
+		return getHeaders().entrySet();
 	}
 }
