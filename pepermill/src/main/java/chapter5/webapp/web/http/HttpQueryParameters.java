@@ -49,4 +49,15 @@ public class HttpQueryParameters {
 		return parameters.get(key);
 	}
 
+	public Map<String, String> getParameters() {
+		return this.parameters;
+	}
+
+	public boolean isEmpty() {
+		return parameters.isEmpty();
+	}
+
+	public int size() {
+		return parameters.size();
+	}
 }
