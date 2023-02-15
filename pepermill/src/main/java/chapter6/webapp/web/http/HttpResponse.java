@@ -16,7 +16,7 @@ public class HttpResponse {
 
 	private static final String HTTP_1_1 = "HTTP/1.1";
 	private static final String EMPTY_BODY = "";
-	private static final String DEFAULT_HTML = "/index.html";
+	private static final String DEFAULT_HTML = "";
 	private static final String DELIMITER = "\r\n";
 	private static final String WHITE_SPACE = " ";
 
@@ -42,14 +42,14 @@ public class HttpResponse {
 	public String getResponse() {
 		String header = getHeaderString();
 		return String.join(DELIMITER,
-			HTTP_1_1 + WHITE_SPACE + httpStatusCode.getHttpStatusCode() + httpStatusCode.getHttpStatusDescription(),
-			header, "");
+			HTTP_1_1 + WHITE_SPACE + httpStatusCode.getHttpStatusCode() + WHITE_SPACE +httpStatusCode.getHttpStatusDescription(),
+			header + DELIMITER, "");
 	}
 
 	private String getHeaderString() {
 		return httpHeaders.getEntries()
 			.stream()
-			.map(e -> e.getKey() + ": " + e.getValue())
+			.map(e -> e.getKey() + ": " + e.getValue().getValue())
 			.collect(Collectors.joining(DELIMITER));
 	}
 

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import chapter6.webapp.web.annotation.GetMapping;
+import chapter6.webapp.web.annotation.PostMapping;
 import chapter6.webapp.web.http.HttpRequest;
 import chapter6.webapp.web.http.HttpResponse;
 
@@ -20,6 +21,25 @@ public class UserController {
 	@GetMapping
 	public void home(HttpRequest request, HttpResponse response) {
 		log.debug("controller is called");
+		response.setContentType("text/html");
+		response.setHtmlLocation("/index.html");
+	}
+
+	@GetMapping("/css/styles.css")
+	public void cssPage(HttpRequest request, HttpResponse response) {
+		response.setCookie("text/css");
+		response.setHtmlLocation("/css/styles.css");
+	}
+
+	@GetMapping("/user/login.html")
+	public void loginPage(HttpRequest request, HttpResponse response) {
+		log.debug("login page called");
+		response.setContentType("text/html");
+		response.setHtmlLocation("/user/login.html");
+	}
+
+	@PostMapping("/user/login")
+	public void login(HttpRequest request, HttpResponse response) {
 		response.setContentType("text/html");
 	}
 }
