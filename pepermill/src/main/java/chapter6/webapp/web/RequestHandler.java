@@ -12,16 +12,22 @@ import org.slf4j.LoggerFactory;
 
 import chapter6.webapp.domain.UserController;
 import chapter6.webapp.domain.UserService;
+import chapter6.webapp.domain.repository.UserJdbcRepository;
 import chapter6.webapp.domain.repository.UserRepository;
 import chapter6.webapp.web.http.HttpRequest;
 import chapter6.webapp.web.http.HttpResponse;
 import chapter6.webapp.web.storoage.SessionStorage;
+import chapter6.webapp.web.storoage.jdbc.DataSourceProperties;
+import chapter6.webapp.web.storoage.jdbc.JdbcConnectionManager;
 
 public class RequestHandler extends Thread {
 
 	private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
 
-	static UserRepository userRepository = new UserRepository();
+	static JdbcConnectionManager jdbcConnectionManager = new JdbcConnectionManager(
+		DataSourceProperties.createTestDataSourceProperties()
+	);
+	static UserRepository userRepository = new UserJdbcRepository(jdbcConnectionManager);
 	static SessionStorage sessionStorage = new SessionStorage();
 
 	private Socket connection;
