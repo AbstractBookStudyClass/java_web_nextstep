@@ -54,7 +54,7 @@ public class HttpResponse {
 	}
 
 	public void setCookie(final String value) {
-		setHttpHeader("Cookie", value);
+		setHttpHeader("Set-cookie", value);
 	}
 
 	public void setContentType(final String value) {

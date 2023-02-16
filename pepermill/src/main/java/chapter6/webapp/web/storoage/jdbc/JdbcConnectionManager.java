@@ -33,6 +33,7 @@ public class JdbcConnectionManager {
 		try {
 			return getDataSource().getConnection();
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new IllegalArgumentException("커넥션을 얻을 수 없습니다.");
 		}
 	}

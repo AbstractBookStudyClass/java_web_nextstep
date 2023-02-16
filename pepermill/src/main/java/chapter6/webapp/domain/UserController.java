@@ -3,9 +3,13 @@ package chapter6.webapp.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import chapter6.webapp.domain.model.User;
 import chapter6.webapp.web.annotation.GetMapping;
+import chapter6.webapp.web.annotation.PostMapping;
+import chapter6.webapp.web.http.HttpQueryParameters;
 import chapter6.webapp.web.http.HttpRequest;
 import chapter6.webapp.web.http.HttpResponse;
+import chapter6.webapp.web.http.HttpStatusCode;
 
 public class UserController {
 
@@ -46,5 +50,22 @@ public class UserController {
 	public void favicon(HttpRequest request, HttpResponse response) {
 		response.setContentType("text/html");
 		response.setHtmlLocation("/favicon.ico");
+	}
+
+	@PostMapping("/user/login")
+	public void login(HttpRequest request, HttpResponse response) {
+		HttpQueryParameters httpQueryParameters = request.getHttpQueryParameters();
+		User user = userService.login(
+			httpQueryParameters.getValue("name"), httpQueryParameters.getValue("password")
+		);
+		if (user != null) {
+			response.setContentType("text/html");
+			response.setHttpStatusCode(HttpStatusCode.FOUND);
+			response.setCookie("JSESSIONID=true");
+			response.setHtmlLocation("/index.html");
+		} else {
+			response.setContentType("text/html");
+			response.setHtmlLocation("/user/login-fail.html");
+		}
 	}
 }
