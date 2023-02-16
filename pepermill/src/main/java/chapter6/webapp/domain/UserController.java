@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import chapter6.webapp.web.annotation.GetMapping;
-import chapter6.webapp.web.annotation.PostMapping;
 import chapter6.webapp.web.http.HttpRequest;
 import chapter6.webapp.web.http.HttpResponse;
 
@@ -33,13 +32,19 @@ public class UserController {
 
 	@GetMapping("/user/login.html")
 	public void loginPage(HttpRequest request, HttpResponse response) {
-		log.debug("login page called");
 		response.setContentType("text/html");
 		response.setHtmlLocation("/user/login.html");
 	}
 
-	@PostMapping("/user/login")
-	public void login(HttpRequest request, HttpResponse response) {
+	@GetMapping("/user/form.html")
+	public void createUserPage(HttpRequest request, HttpResponse response) {
 		response.setContentType("text/html");
+		response.setHtmlLocation("/user/form.html");
+	}
+
+	@GetMapping("/favicon.ico")
+	public void favicon(HttpRequest request, HttpResponse response) {
+		response.setContentType("text/html");
+		response.setHtmlLocation("/favicon.ico");
 	}
 }
