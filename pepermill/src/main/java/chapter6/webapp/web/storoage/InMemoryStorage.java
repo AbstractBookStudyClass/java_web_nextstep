@@ -48,4 +48,10 @@ public class InMemoryStorage<V> implements Storage<V> {
 			.map(e -> e.getValue())
 			.collect(Collectors.toList());
 	}
+
+	@Override
+	public void delete(final V data) {
+		Integer key = getKeyValue(data);
+		storage.remove(key);
+	}
 }

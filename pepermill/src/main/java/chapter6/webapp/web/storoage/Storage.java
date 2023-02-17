@@ -8,4 +8,5 @@ public interface Storage <V> {
 	 Integer getAtomicKey();
 	 Integer getKeyValue(V data);
 	 List<V> getAllValues();
+	void delete(V user);
 }
