@@ -12,8 +12,14 @@
 - id를 저장할 때는 uuid를 사용한다.
 - 쿠키를 세션에 저장한다.
 - 세션을 관리하는 클래스를 구현한다.
+- 요청은 세션 정보를 포함할 수 있다.
 
 ## 2. JDBC를 사용해서 데이터베이스에 데이터를 저장한다.
 
 - DB 커넥션을 관리하는 클래스를 만든다.
 - DB에 접근하는 클래스를 만든다.
+
+## 참고자료
+
+- Apache Tomcat
+  - https://github.com/apache/tomcat/blob/main/java/jakarta/servlet/http/HttpSession.java
