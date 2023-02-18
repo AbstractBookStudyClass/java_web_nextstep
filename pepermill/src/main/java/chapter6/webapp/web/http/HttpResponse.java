@@ -41,9 +41,13 @@ public class HttpResponse {
 
 	public String getResponse() {
 		String header = getHeaderString();
-		return String.join(DELIMITER,
-			HTTP_1_1 + WHITE_SPACE + httpStatusCode.getHttpStatusCode() + WHITE_SPACE +httpStatusCode.getHttpStatusDescription(),
+		String join = String.join(DELIMITER,
+			HTTP_1_1 + WHITE_SPACE + httpStatusCode.getHttpStatusCode() + WHITE_SPACE
+				+ httpStatusCode.getHttpStatusDescription(),
 			header + DELIMITER, "");
+		log.debug("--- created header ---");
+		log.debug(join);
+		return join;
 	}
 
 	private String getHeaderString() {
@@ -75,7 +79,7 @@ public class HttpResponse {
 		this.body = body;
 	}
 
-	public void setHttpStatusCode(final HttpStatusCode statusCode) {
+	public void setHttpStatusCode(final HttpStatusCode httpStatusCode) {
 		this.httpStatusCode = httpStatusCode;
 	}
 
