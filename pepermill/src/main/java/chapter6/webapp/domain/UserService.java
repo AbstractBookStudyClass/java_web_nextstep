@@ -8,16 +8,18 @@ import org.slf4j.LoggerFactory;
 
 import chapter6.webapp.domain.model.User;
 import chapter6.webapp.domain.repository.UserRepository;
-import chapter6.webapp.web.storoage.SessionStorage;
+import chapter6.webapp.web.storoage.session.HttpSessionStorage;
 
 public class UserService {
 
 	private static final Logger log = LoggerFactory.getLogger(UserService.class);
+	private static final String LOGIN_USER = "login-user";
 
 	private final UserRepository userRepository;
-	private final SessionStorage sessionStorage;
+	private final HttpSessionStorage sessionStorage;
 
-	public UserService(final UserRepository userRepository, final SessionStorage sessionStorage) {
+	public UserService(final UserRepository userRepository,
+					   final HttpSessionStorage sessionStorage) {
 		this.userRepository = userRepository;
 		this.sessionStorage = sessionStorage;
 	}
@@ -35,16 +37,16 @@ public class UserService {
 			log.error("!!!! NO USER!!!");
 			return null;
 		}
-		sessionStorage.setSession(user);
+		// sessionStorage.setAttribute(LOGIN_USER, user);
 		return user;
 	}
 
 	public void logout(String name, String password) {
 		User user = new User(name, password);
-		if(!sessionStorage.checkSession(user)) {
+		if(!sessionStorage.containAttribute(LOGIN_USER)) {
 			throw new RuntimeException("로그인이 안된 회원입니다.");
 		}
-		sessionStorage.removeSession(user);
+		sessionStorage.removeSessionId();
 	}
 
 	public List<User> getUserList() {

@@ -26,9 +26,11 @@ public class ViewResolver {
 		byte[] header = httpResponse.getResponse().getBytes();
 		byte[] body;
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		Path path = Paths.get(RESOURCES_PATH + httpResponse.getHtmlLocation());
 		outputStream.write(header);
-		outputStream.write(Files.readAllBytes(path));
+		if (!httpResponse.getHtmlLocation().isEmpty()) {
+			Path path = Paths.get(RESOURCES_PATH + httpResponse.getHtmlLocation());
+			outputStream.write(Files.readAllBytes(path));
+		}
 		return outputStream.toByteArray();
 	}
 

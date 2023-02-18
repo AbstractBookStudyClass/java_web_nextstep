@@ -62,10 +62,11 @@ public class UserController {
 			response.setContentType("text/html");
 			response.setHttpStatusCode(HttpStatusCode.FOUND);
 			response.setCookie("JSESSIONID=true");
-			response.setHtmlLocation("/index.html");
+			response.setHttpHeader("Location", "http://localhost:8080/index.html");
 		} else {
 			response.setContentType("text/html");
-			response.setHtmlLocation("/user/login-fail.html");
+			response.setHttpStatusCode(HttpStatusCode.UNAUTHORIZED);
+			response.setHttpHeader("Location", "http://localhost:8080/user/login-fail.html");
 		}
 	}
 }
