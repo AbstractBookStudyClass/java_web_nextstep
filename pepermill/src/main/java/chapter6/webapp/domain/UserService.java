@@ -30,14 +30,14 @@ public class UserService {
 	}
 
 	public User login(String name, String password) {
-		User user = new User(name, password);
+		User user =  null;
 		try {
-			User storedUser = userRepository.findByUser(user);
+			user = userRepository.findByUser(new User(name, password));
 		} catch (NoSuchElementException e) {
 			log.error("!!!! NO USER!!!");
-			return null;
+			return user;
 		}
-		// sessionStorage.setAttribute(LOGIN_USER, user);
+		sessionStorage.setAttribute(LOGIN_USER, user);
 		return user;
 	}
 

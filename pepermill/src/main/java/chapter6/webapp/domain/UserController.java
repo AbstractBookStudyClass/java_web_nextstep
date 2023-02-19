@@ -40,6 +40,12 @@ public class UserController {
 		response.setHtmlLocation("/user/login.html");
 	}
 
+	@GetMapping("/user/login-fail.html")
+	public void loginFailPage(HttpRequest request, HttpResponse response) {
+		response.setContentType("text/html");
+		response.setHtmlLocation("/user/login-fail.html");
+	}
+
 	@GetMapping("/user/form.html")
 	public void createUserPage(HttpRequest request, HttpResponse response) {
 		response.setContentType("text/html");
@@ -61,11 +67,10 @@ public class UserController {
 		if (user != null) {
 			response.setContentType("text/html");
 			response.setHttpStatusCode(HttpStatusCode.FOUND);
-			response.setCookie("JSESSIONID=true");
 			response.setHttpHeader("Location", "http://localhost:8080/index.html");
 		} else {
 			response.setContentType("text/html");
-			response.setHttpStatusCode(HttpStatusCode.UNAUTHORIZED);
+			response.setHttpStatusCode(HttpStatusCode.FOUND);
 			response.setHttpHeader("Location", "http://localhost:8080/user/login-fail.html");
 		}
 	}

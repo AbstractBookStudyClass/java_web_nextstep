@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,6 +116,8 @@ public class UserJdbcRepository implements UserRepository {
 					resultSet.getString("username"),
 					resultSet.getString("password")
 				);
+			} else {
+				throw new NoSuchElementException();
 			}
 			return resultUser;
 		} catch (SQLException e) {
